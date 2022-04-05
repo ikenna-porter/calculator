@@ -2,36 +2,48 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(181, 176, 176);
+    background-color: #EED6C4;
 }
 
 .calculator {
     display: flex;
     flex-direction: column;
-    width: 500px;
-    height: 550px;
-    background-color: white;
-    /* justify-content: space-between; */
-
+    width: 400px;
+    height: 525px;
+    background-color: gray;
+    justify-content: space-between;
+    border: #483434 solid 3px;
 }
 
 .screen {
     display: flex;
     flex-direction: column;
     height: 100px;
-    background-color: blue;
+    background-color: #FFF3E4;
+    border-bottom: #483434 solid 3px
+}
+
+.operations-list {
+    width: auto;
+    height: 33px;
+    background-color: aliceblue;
+}
+
+.recent-input {
+    width: auto;
+    height: 66px;
+    background-color: #6B4F4F;
 }
 
 .rows {
     display: flex;
-    height: 100px;
     justify-content: space-evenly;
-    background-color: rgb(103, 192, 228);
 }
 
 button {
     width: 75px;
     height: 75px;
-    border: 2px solid white;
-    border-radius: 50%;
+    border: 2px solid #483434;
+    background-color: #6B4F4F;
+    border-radius: 10%;
 }
