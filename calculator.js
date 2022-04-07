@@ -3,6 +3,8 @@ const operators = document.querySelectorAll(".operators");
 const input = document.querySelector('.recent-input');
 const operationsList = document.querySelector('.operations-list');
 const equal = document.querySelector('.equal');
+const clear = document.querySelector('#clear');
+const del = document.querySelector('#delete');
 
 
 let secondValue = '';
@@ -47,7 +49,15 @@ equal.addEventListener('click', e => {
     performOperation();
     operation = '';
     equalsRan = true;
-})
+});
+
+clear.addEventListener('click', e => {
+    operationsList.innerText = '';
+    firstValue = '';
+    secondValue = '';
+    operation = '';
+    input.innerText = '';
+});
 
 
 function logNumOnScreen(e) {
