@@ -17,8 +17,8 @@ numbers.forEach(function (num) {
             input.innerText = firstValue;
         } else if (firstValue && operation) {
             secondValue += e.target.innerText; //declare secondValue label
-            console.log(firstValue);
-            console.log(secondValue);
+            console.log(`first value: ${firstValue}`);
+            console.log(`second value: ${secondValue}`);
 
             input.innerText = secondValue;
             //performs correct operation in accordance with the value from operation label
@@ -42,7 +42,7 @@ operators.forEach(operator => {
                 operation = e.target.classList[1];
             }
         } else if (firstValue && secondValue) {
-            operationsList.innerText += ` ${secondValue} `; //adds secondValue to operationsList
+            operationsList.innerText += ` ${secondValue} ${e.target.innerText}`; //adds secondValue to operationsList
 
             if (operation === 'add') {
                 firstValue = operate(firstValue, secondValue, add);
@@ -53,9 +53,14 @@ operators.forEach(operator => {
             } else if (operation === 'divide') {
                 firstValue = operate(firstValue, secondValue, divide);
             };
-
+            //Stores the computed result as the new firstValue
             input.innerText = firstValue;
+            //Resets secondValue to null
             secondValue = '';
+            //Saves the new operation to be performed once secondValue is declared again
+            operation = e.target.classList[1];
+
+
 
         }
     });
