@@ -1,38 +1,69 @@
+@font-face {
+    font-family: 'button-font';
+    src: url("fonts/Lora-MediumItalic.ttf");
+}
+
+@font-face {
+    font-family: 'screen-font';
+    src: url("fonts/Lora-Italic.ttf");
+}
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
 body {
+    min-height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #EED6C4;
+    background-color: #e3c2a9;
 }
 
 .calculator {
     display: flex;
     flex-direction: column;
-    width: 400px;
-    height: 525px;
-    background-color: gray;
+    width: 370px;
+    height: 570px;
+    background-color: #846e6e;
     justify-content: space-between;
     border: #483434 solid 3px;
+    font-size: 20px;
 }
 
 .screen {
     display: flex;
     flex-direction: column;
-    height: 100px;
+    height: 20%;
+    padding: 5px;
     background-color: #FFF3E4;
-    border-bottom: #483434 solid 3px
+    border-bottom: #483434 solid 3px;
+    font-family: "screen-font";
+}
+
+.keys {
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    width: auto;
+    justify-content: space-evenly;
+    align-items: space-evenly;
 }
 
 .operations-list {
     width: auto;
-    height: 33px;
-    background-color: aliceblue;
+    height: 34%;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    white-space: nowrap;
 }
 
 .recent-input {
     width: auto;
-    height: 66px;
-    background-color: #6B4F4F;
+    height: 66%;
+    font-size: 55px;
+    overflow: scroll;
 }
 
 .rows {
@@ -43,7 +74,22 @@ body {
 button {
     width: 75px;
     height: 75px;
-    border: 2px solid #483434;
-    background-color: #6B4F4F;
+    border: 2px solid #563b3b;
+    background-color: #5c4141;
     border-radius: 10%;
+    color: #e3c2a9;
+    font-family: "button-font";
+    font-size: 18px;
+}
+
+.not-numbers {
+    background-color: #593920;
+    border: 2px solid #492f1b; 
+}
+
+.equal {
+    flex-grow: .62;
+    border-radius: 7%;
+    background-color: #ae642b;
+    border: 2px solid #a15a23;
 }
