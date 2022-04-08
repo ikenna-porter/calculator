@@ -30,6 +30,7 @@ body {
     justify-content: space-between;
     border: #483434 solid 3px;
     font-size: 20px;
+    border-radius: 5px;
 }
 
 .screen {
@@ -40,6 +41,8 @@ body {
     background-color: #FFF3E4;
     border-bottom: #483434 solid 3px;
     font-family: "screen-font";
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 }
 
 .keys {

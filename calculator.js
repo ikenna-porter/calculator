@@ -6,6 +6,7 @@ const operationsList = document.querySelector('.operations-list');
 const equal = document.querySelector('.equal');
 const clear = document.querySelector('#clear');
 const del = document.querySelector('#delete');
+const posNeg = document.querySelector('.pos-neg');
 
 
 let secondValue = '';
@@ -80,6 +81,16 @@ del.addEventListener('click', e => {
     deleteLastInput(e);
 })
 
+posNeg.addEventListener('click', e => {
+    if (input.innerText) {
+        if (input.innerText[0] !== '-') {
+            input.innerText = '-' + input.innerText;
+        } else if (input.innerText[0] === '-') {
+            input.innerText = input.innerText.slice(1, input.innerText.length - 1);
+        }
+    }
+});
+
 
 function logNumOnScreen(e) {
     //logs number on screen / allows first number to be 2+ digits
@@ -138,10 +149,15 @@ function performOperation() {
 }
 
 function deleteLastInput(e) {
-    //removes last input from operations list
-    operationsList.innerText = operationsList.innerText.slice(0, operationsList.innerText.length - 2);
-    secondValue = '';
-    // if (operation) operation = '';
+    //runs function after a number has been inputted
+    if (secondValue) {
+        secondValue = secondValue.slice(0, secondValue.length - 1);
+        input.innerText = secondValue;
+    //only runs function when number is inputted for very first time 
+    } else if (firstValue && !secondValue && !operation && !equalsRan) {  
+        firstValue = firstValue.slice(0, firstValue.length - 1);
+        input.innerText = firstValue;
+    }
 }
 
 function add(a, b) {
