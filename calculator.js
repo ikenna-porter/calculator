@@ -14,53 +14,73 @@ let firstValue = '';
 let operation = '';
 let equalsRan = false;
 
-//Listens for "click" on numbers and prints number on screen
+//Numbers KEYDOWN Event Listener
+document.addEventListener("keydown", function (e) {
+    numbers.forEach( num => {
+        if (e.key === num.innerText) {
+            if (equalsRan) {
+                operationsList.innerText = firstValue; //the total is moved up to the operationsList
+                equalsRan = false;
+            }
+            logNumOnScreen(e.key);
+        }
+    });
+});
+
+//Numbers Buttons CLICK Event Listener
 numbers.forEach(function (num) {
 
     //changes background color when hovered over element
     num.addEventListener('mouseover', e => e.target.style.backgroundColor = "#563b3b");
+
     //reverts back to normal background color when hovered out of element5c4141
     num.addEventListener('mouseout', e => e.target.style.backgroundColor = "#5c4141");
 
     num.addEventListener('click', e => {
+        //disable operators
         operators.forEach(operator => operator.disabled = false);
+        //reverts operators back to normal background color 
+        operators.forEach(operator => operator.style.backgroundColor = '#593920');
         //If equals function was performed...
         if (equalsRan) {
             operationsList.innerText = firstValue; //the total is moved up to the operationsList
             equalsRan = false;
         }
+
         logNumOnScreen(e);
     });
 });
 
+//notNumbers Hovering Background Change Event Listener 
 notNumbers.forEach(function (notNum) {
     notNum.addEventListener('mouseover', e => e.target.style.backgroundColor = "#492f1b");
     notNum.addEventListener('mouseout', e => e.target.style.backgroundColor = "#593920");
 });
 
-equal.addEventListener('mouseover', e => e.target.style.backgroundColor = "#a15a23");
-equal.addEventListener('mouseout', e => e.target.style.backgroundColor = "#ae642b");
-
+//Operator Button Event Listener
+operators.forEach(operator => {
 //Listens for click on each operator button if firstValue is true
 //If no firstValue then operator buttons are ignored
-operators.forEach(operator => {
     operator.addEventListener('click', e => {
-        //turns off operator buttons once they've been pressed - prevents consecutive operator button pressing
-        operators.forEach(operator => operator.disabled = true);
-
-
-        updateOperationsList(e);
-        updateOperation(e);
-        //performs the operations and stores result as firstValue / resets secondValue to null
-        performOperation();
-
-        //Saves the new operation to be performed once secondValue is declared again
-        operation = e.target.classList[1];
         
-        numbers.forEach(num => num.disabled = false); //enables numbers to be typed again
+        if (firstValue) {
+            //turns off operator buttons once they've been pressed - prevents consecutive operator button pressing
+            operators.forEach(operator => operator.disabled = true);
+
+            updateOperationsList(e);
+            updateOperation(e);
+            //performs the operations and stores result as firstValue / resets secondValue to null
+            performOperation();
+            //Saves the new operation to be performed once secondValue is declared again
+            operation = e.target.classList[1];
+            numbers.forEach(num => num.disabled = false); //enables numbers to be typed again
+        }
     });
 });
 
+//Equal Key Event Listeners
+equal.addEventListener('mouseover', e => e.target.style.backgroundColor = "#a15a23");
+equal.addEventListener('mouseout', e => e.target.style.backgroundColor = "#ae642b");
 equal.addEventListener('click', e => {
     if (secondValue) {
         operators.forEach(operator => operator.disabled = false);
@@ -77,18 +97,25 @@ equal.addEventListener('click', e => {
     }
 });
 
+//Clear Button Event Listener
 clear.addEventListener('click', e => {
     operationsList.innerText = '';
     firstValue = '';
     secondValue = '';
     operation = '';
     input.innerText = '';
+
+    //Enable all buttons
+    notNumbers.forEach(nn => nn.disabled = false);
+    numbers.forEach(n => n.disabled = false);
 });
 
+//Delete Button Event Listener
 del.addEventListener('click', e => {
     deleteLastInput(e);
 })
 
+//Positive to Negative Button Event Listener 
 posNeg.addEventListener('click', e => {
     if (input.innerText) {
         if (input.innerText[0] !== '-' && secondValue) { //adds neg to secondValue if input is pos
@@ -106,7 +133,6 @@ posNeg.addEventListener('click', e => {
         }
     }
 });
-
 
 function logNumOnScreen(e) {
     //logs number on screen / allows first number to be 2+ digits
@@ -157,10 +183,28 @@ function performOperation() {
         } else if (operation === 'divide') {
             firstValue = operate(firstValue, secondValue, divide);
         };
+
+        if (firstValue === Infinity) { //returns NaN if equates to Infinity and disables all functionality
+            firstValue = NaN;
+            equal.disabled = true;
+            operators.forEach(operator => operator.disabled = true);
+            numbers.forEach(number => number.disabled = true);
+        }
+
         //Stores displays firstValue on screen once computed
         input.innerText = firstValue;
+
+        if (firstValue === 0) { //resets calculator when result is 0
+            operationsList.innerText = '0';
+            firstValue = '0';
+            secondValue = '';
+            operation = '';
+            input.innerText = '0';
+        }
+
         //Resets secondValue to null
         secondValue = '';
+
     }
 }
 
