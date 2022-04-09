@@ -56,17 +56,25 @@ operators.forEach(operator => {
 
         //Saves the new operation to be performed once secondValue is declared again
         operation = e.target.classList[1];
+        
+        numbers.forEach(num => num.disabled = false); //enables numbers to be typed again
     });
 });
 
 equal.addEventListener('click', e => {
-    operators.forEach(operator => operator.disabled = false);
-    operationsList.innerText += ` ${secondValue} ${e.target.innerText}`; //adds secondValue to operationsList
+    if (secondValue) {
+        operators.forEach(operator => operator.disabled = false);
+        operationsList.innerText += ` ${secondValue} ${e.target.innerText}`; //adds secondValue to operationsList
 
-    //performs the operations and stores result as firstValue / resets secondValue to null
-    performOperation();
-    operation = '';
-    equalsRan = true;
+        //performs the operations and stores result as firstValue / resets secondValue to null
+        performOperation();
+        operation = '';
+        equalsRan = true;
+    }
+
+    if (firstValue && !operation) { //prevents number buttons from being pressed after equation:
+        numbers.forEach( num => num.disabled = true); //so 1 + 2 = 3 doesn't become 1 + 2 = 3 + userInput
+    }
 });
 
 clear.addEventListener('click', e => {
@@ -83,10 +91,18 @@ del.addEventListener('click', e => {
 
 posNeg.addEventListener('click', e => {
     if (input.innerText) {
-        if (input.innerText[0] !== '-') {
+        if (input.innerText[0] !== '-' && secondValue) { //adds neg to secondValue if input is pos
+            secondValue = '-' + input.innerText;
             input.innerText = '-' + input.innerText;
-        } else if (input.innerText[0] === '-') {
-            input.innerText = input.innerText.slice(1, input.innerText.length - 1);
+        } else if (input.innerText[0] !== '-' && firstValue) { //adds neg to firstValue if input is pos
+            firstValue = '-' + input.innerText;
+            input.innerText = '-' + input.innerText;
+        } else if(input.innerText[0] === '-' && secondValue) { //removes neg from secondValue if input is already neg
+            secondValue = input.innerText.slice(1, input.innerText.length);
+            input.innerText = input.innerText.slice(1, input.innerText.length);
+        } else if (input.innerText[0] === '-' && firstValue) { //removes neg from firstValue if input is already neg
+            firstValue = input.innerText.slice(1, input.innerText.length);
+            input.innerText = input.innerText.slice(1, input.innerText.length);
         }
     }
 });
