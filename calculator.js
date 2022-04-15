@@ -15,16 +15,20 @@ let operation = '';
 let equalsRan = false;
 
 //Numbers KEYDOWN Event Listener
-document.addEventListener("keydown", function (e) {
-    numbers.forEach( num => {
-        if (e.key === num.innerText) {
-            if (equalsRan) {
-                operationsList.innerText = firstValue; //the total is moved up to the operationsList
-                equalsRan = false;
-            }
-            logNumOnScreen(e.key);
-        }
-    });
+document.addEventListener("keyup", function (e) {
+    //disable operators
+    operators.forEach(operator => operator.disabled = false);
+    //reverts operators back to normal background color 
+    operators.forEach(operator => operator.style.backgroundColor = '#593920');
+    //If equals function was performed...
+    if (equalsRan) {
+        operationsList.innerText = firstValue; //the total is moved up to the operationsList
+        equalsRan = false;
+    }
+    if (/\d+/.test(e.key)) {
+        logFromKeyboard(e.key);
+    }
+
 });
 
 //Numbers Buttons CLICK Event Listener
@@ -141,6 +145,17 @@ function logNumOnScreen(e) {
         input.innerText = firstValue;
     } else if (firstValue && operation) {
         secondValue += e.target.innerText; //declare secondValue label
+        input.innerText = secondValue;
+    }
+}
+
+function logFromKeyboard(e) {
+    //logs number on screen / allows first number to be 2+ digits
+    if ((!firstValue && !operation) || (firstValue && !operation)) {
+        firstValue += e;
+        input.innerText = firstValue;
+    } else if (firstValue && operation) {
+        secondValue += e; //declare secondValue label
         input.innerText = secondValue;
     }
 }
